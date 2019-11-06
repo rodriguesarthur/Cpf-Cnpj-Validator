@@ -22,17 +22,17 @@ export function CpfCnpjValidator(control: AbstractControl): {[key: string]: any}
       return cpfLength - digit;
     };
 
-    // Verifica o tamanho da string.
+    // Tamanho da string
     if ([cpfLength, cnpjLength].indexOf(cpfCnpj.length) < 0) {
         return { cpfLength: true };
     }
 
-    // Verifica se todos os dígitos são iguais.
+    // Digitos repetidos
     if (/^([0-9])\1*$/.test(cpfCnpj)) {
         return { cpfInvalido: true };
     }
 
-    // A seguir é realizado o cálculo verificador.
+    // Calculo para verificar CPF/CNPJ
     const cpfCnpjArr: number[] = cpfCnpj.split('').reverse().slice(2);
 
     cpfCnpjArr.unshift(buildDigit(cpfCnpjArr));
@@ -40,7 +40,6 @@ export function CpfCnpjValidator(control: AbstractControl): {[key: string]: any}
 
 
     if (cpfCnpj !== cpfCnpjArr.reverse().join('')) {
-        // Dígito verificador não é válido, resultando em falha.
         return { cpfInvalido: true };
     }
 
